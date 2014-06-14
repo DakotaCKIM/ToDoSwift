@@ -8,8 +8,13 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
-                            
+class SecondViewController: UIViewController, UITextFieldDelegate {
+    
+    
+    @IBOutlet var textTask: UITextField!
+    @IBOutlet var textDesc: UITextField!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -19,7 +24,28 @@ class SecondViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    // Events
+    @IBAction func buttonAddTask_Click(sender: UIButton){
+        toDoMgr.addTask(textTask.text, desc: textDesc.text)
+        self.view.endEditing(true)
+        textDesc.text = ""
+        textTask.text = ""
+        self.tabBarController.selectedIndex = 0;
+        
+    }
+    
+    // Ends touch function without RETURN
+    override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!)
+    {
+        self.view.endEditing(true)
+    }
 
-
+    // UITextFieldDelegate
+    func textFieldShouldReturn(textField: UITextField!) -> Bool
+    {
+        textField.resignFirstResponder();
+        return true
+    }
 }
 
